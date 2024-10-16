@@ -1,4 +1,4 @@
-package Controllers;
+package com.eximius.eximius.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

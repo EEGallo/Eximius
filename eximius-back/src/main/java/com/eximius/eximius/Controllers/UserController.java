@@ -1,4 +1,4 @@
-package Controllers;
+package com.eximius.eximius.Controllers;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
