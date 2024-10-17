@@ -46,7 +46,7 @@ public class UserController {
     public User updateUser(@PathVariable Long id, @RequestBody User detailsUser){
         User user =  userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("The user with the ID was not found: " + id));
-        user.setUsername(detailsUser.getUsername());
+        //user.setUsername(detailsUser.getUsername());
         user.setPassword(detailsUser.getPassword());
         user.setEmail(detailsUser.getEmail());
         user.setPhone(detailsUser.getPhone());
