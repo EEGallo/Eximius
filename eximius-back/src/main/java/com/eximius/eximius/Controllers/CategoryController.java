@@ -1,21 +1,21 @@
 package com.eximius.eximius.Controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import com.eximius.eximius.Entities.Category;
 import com.eximius.eximius.Repositories.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/category")
-class CategoryController {
+@RequestMapping("/api/category")
+public class CategoryController {
 
     @Autowired
     private CategoryRepository categoryRepository;
 
     @GetMapping
-    public List<Category> getAllCategory() {
+    public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
@@ -36,16 +36,21 @@ class CategoryController {
                 .orElseThrow(() -> new RuntimeException("Category not found with id " + id));
 
         category.setName(categoryDetails.getName());
-        category.setDescription(categoryDetails.getDescription());
+
         return categoryRepository.save(category);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable Long id) {
+    public String deleteCategory(@PathVariable Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found with id " + id));
 
         categoryRepository.delete(category);
         return "Category with id " + id + " has been deleted";
     }
+
+
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.eximius.eximius.Controllers;
 
+import com.eximius.eximius.Repositories.ProductRepository;
 import com.eximius.eximius.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    private ProductRepository productRepository;
 
     @GetMapping("/all")
     public List<Product> getAllProducts() {
@@ -31,6 +33,10 @@ public class ProductController {
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
         return productService.updateProduct(id, productDetails);
+    }
+    @GetMapping("/category/{categoryId}")
+    public List<Product> getProductsByCategory(@PathVariable Long categoryId) {
+        return productRepository.findByCategory_Id(categoryId);
     }
 
     @DeleteMapping("/{id}")

@@ -56,14 +56,23 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
 
-                                //acceso PUBLICO/USER
-                                .requestMatchers(HttpMethod.GET, "/api/product/all", "/api/product/{id}").permitAll() // Permitir acceso sin autenticación a las peticiones GET
+                                //acces PUBLIC/USER
+                                .requestMatchers(HttpMethod.GET, "/api/product/all", "/api/product/**", "/api/product/category/**").permitAll() // Permitir acceso sin autenticación a las peticiones GET product
+                                .requestMatchers(HttpMethod.GET, "/api/category", "/api/category/{id}").permitAll() // Permitir acceso sin autenticación a las peticiones GET category
                                 .requestMatchers("/api/auth/**").permitAll() // Permitir acceso sin autenticación a /api/auth/**
 
-                                //acceso de ADMIN
+                                //acces ADMIN
+
+                                //ADMIN > Product
                                 .requestMatchers(HttpMethod.POST, "/api/product").hasAuthority(RoleConstants.ADMIN) // Solo ADMIN puede crear productos
                                 .requestMatchers(HttpMethod.PUT, "/api/product/{id}").hasAuthority(RoleConstants.ADMIN) // Solo ADMIN puede actualizar productos
                                 .requestMatchers(HttpMethod.DELETE, "/api/product/{id}").hasAuthority(RoleConstants.ADMIN) // Solo ADMIN puede eliminar productos
+
+                                //ADMIN > Category
+                                .requestMatchers(HttpMethod.POST, "/api/category").hasAuthority(RoleConstants.ADMIN) // Solo ADMIN puede crear productos
+                                .requestMatchers(HttpMethod.PUT, "/api/category/{id}").hasAuthority(RoleConstants.ADMIN) // Solo ADMIN puede actualizar productos
+                                .requestMatchers(HttpMethod.DELETE, "/api/category/{id}").hasAuthority(RoleConstants.ADMIN) // Solo ADMIN puede eliminar productos
+
                                 .anyRequest().authenticated() // Cualquier otra solicitud debe estar autenticada
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

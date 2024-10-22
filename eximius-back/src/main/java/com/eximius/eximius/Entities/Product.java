@@ -1,5 +1,6 @@
 package com.eximius.eximius.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,9 +15,9 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "id_product")
     private Long id;
+
     private String name;
     private String description;
     private double price;
@@ -25,6 +26,6 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonBackReference // Evita la serialización circular
     private Category category;
-
 }
