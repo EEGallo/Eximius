@@ -21,9 +21,6 @@ public class User {
     private Long idUser;
     private String userName;
     private String password;
-    private String email;
-    private Integer phone;
-    private String address;
 
     //We use fetchType in EAGER so that every time a user is accessed or extracted from the DB, it extracts all its roles.
     /* With JoinTable we will be creating a table that will join the user and role table, so we will have a total of 3 related tables in the “users_roles” table, through its user_id columns, which will point to the ID of the user table and role_id which will point to the ID of the role table.

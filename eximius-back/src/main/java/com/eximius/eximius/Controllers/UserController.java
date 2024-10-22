@@ -48,9 +48,6 @@ public class UserController {
                 .orElseThrow(() -> new RuntimeException("The user with the ID was not found: " + id));
         //user.setUsername(detailsUser.getUsername());
         user.setPassword(detailsUser.getPassword());
-        user.setEmail(detailsUser.getEmail());
-        user.setPhone(detailsUser.getPhone());
-        user.setAddress(detailsUser.getAddress());
         return userRepository.save(user);
     }
 
