@@ -1,11 +1,16 @@
 package com.eximius.eximius.Entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
-@Table(name = "orders_items")
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "order_items")
 public class OrderItem {
 
     @Id
@@ -20,50 +25,6 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @Column(nullable = false)
     private int quantity;
-
-    @Column(nullable = false)
-    private double price;
-
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    private double price; // Precio unitario al momento de la compra
 }

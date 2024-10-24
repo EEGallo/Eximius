@@ -1,6 +1,9 @@
 package com.eximius.eximius.Controllers;
 
 
+import com.eximius.eximius.DTO.CartItemDto;
+import com.eximius.eximius.Entities.CartItem;
+import com.eximius.eximius.Services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +13,11 @@ import com.eximius.eximius.Repositories.CartRepository;
 
 
 @RestController
-@RequestMapping("/carts")
+@RequestMapping("/api/cart")
 public class CartController {
+
+    @Autowired
+    private CartService cartService;
 
     @Autowired
     private CartRepository cartRepository;
@@ -23,9 +29,9 @@ public class CartController {
     }
 
     // Crear un nuevo carrito
-    @PostMapping
-    public Cart createCart(@RequestBody Cart cart) {
-        return cartRepository.save(cart);
+    @PostMapping("/addproduct")
+    public Cart addProductToCart(@RequestBody CartItemDto newItemDTO) {
+        return cartService.addProductToCart(newItemDTO);
     }
 
     // Add a Product to Cart

@@ -1,7 +1,6 @@
 package com.eximius.eximius.Security;
 
 import com.eximius.eximius.Constant.RoleConstants;
-import com.eximius.eximius.Entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,10 +55,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
 
-                                //acces PUBLIC/USER
+                                //acces PUBLIC
                                 .requestMatchers(HttpMethod.GET, "/api/product/all", "/api/product/**", "/api/product/category/**").permitAll() // Permitir acceso sin autenticación a las peticiones GET product
                                 .requestMatchers(HttpMethod.GET, "/api/category", "/api/category/{id}").permitAll() // Permitir acceso sin autenticación a las peticiones GET category
                                 .requestMatchers("/api/auth/**").permitAll() // Permitir acceso sin autenticación a /api/auth/**
+
+                                //acces USER
+                                .requestMatchers(HttpMethod.POST, "/api/cart", "/api/cart/addproduct").hasAuthority(RoleConstants.USER) // Solo USER puede crear un carrito y añadir productos en él
+                                .requestMatchers(HttpMethod.GET, "/api/cart/{id}").hasAuthority(RoleConstants.USER) // Solo USER puede ver el carrito
+                                .requestMatchers(HttpMethod.DELETE, "/api/cart/{id}").hasAuthority(RoleConstants.USER) //Solamente USER puede eliminar el carrito
+
+
 
                                 //acces ADMIN
 
@@ -72,6 +78,11 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/category").hasAuthority(RoleConstants.ADMIN) // Solo ADMIN puede crear productos
                                 .requestMatchers(HttpMethod.PUT, "/api/category/{id}").hasAuthority(RoleConstants.ADMIN) // Solo ADMIN puede actualizar productos
                                 .requestMatchers(HttpMethod.DELETE, "/api/category/{id}").hasAuthority(RoleConstants.ADMIN) // Solo ADMIN puede eliminar productos
+
+
+                                //ADMIN > Carts
+                                .requestMatchers(HttpMethod.GET, "/api/cart").hasAuthority(RoleConstants.ADMIN) // Solo USER puede ver el carrito
+
 
                                 .anyRequest().authenticated() // Cualquier otra solicitud debe estar autenticada
                 )
