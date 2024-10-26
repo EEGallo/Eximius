@@ -1,35 +1,55 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { MaterialIcons } from '@expo/vector-icons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+    <Tabs 
+      screenOptions={{ 
         headerShown: false,
-      }}>
+        tabBarStyle:{
+          backgroundColor: '#2F3033',
+          borderRadius: 40,
+          marginBottom: 10,
+          marginHorizontal: 20,
+          height: 60,
+          paddingVertical: 5,
+
+        },
+        tabBarActiveTintColor:'#BFD936',
+        tabBarInactiveTintColor:'#707070',
+        tabBarShowLabel:false,
+        }}>
+
+
+      <Tabs.Screen
+        name="home"
+        options={{
+          tabBarLabel: 'Inicio',
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />,
+        }}
+      />
       <Tabs.Screen
         name="shop"
         options={{
-          title: 'Shop',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+          tabBarLabel: 'Tienda',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="tshirt" size={20} color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="cart"
+        options={{
+          tabBarLabel: 'Carrito',
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="shopping-bag" color={color} size={size} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
+          tabBarLabel: 'Perfil',
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />,
         }}
       />
     </Tabs>
