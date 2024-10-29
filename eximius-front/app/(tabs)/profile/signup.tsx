@@ -1,7 +1,7 @@
 // app/profile/register.tsx
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import SignUpForm from '@/components/SignUpForm';  // Importa el componente de registro
+import SignUpForm from '@/components/SignUpForm';
 
 export default function RegisterScreen() {
   return (

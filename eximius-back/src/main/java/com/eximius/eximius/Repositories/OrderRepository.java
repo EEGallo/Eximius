@@ -10,6 +10,6 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // Método para encontrar todas las órdenes de un usuario específico
-    List<Order> findByUserId(Long userId);
+    List<Order> findByUser_Id(Long userId);
 }
 

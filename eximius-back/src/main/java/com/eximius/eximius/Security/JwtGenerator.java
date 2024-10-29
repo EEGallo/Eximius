@@ -20,11 +20,13 @@ public class JwtGenerator {
         //Line to generate the token
         String token = Jwts.builder() //Construct a JWT token
                 .setSubject(username) //Set the login user name
-                .setIssuedAt(new Date()) //Set token issuance date
-                .setExpiration(expiryToken) //Set the expiration date of the token
+                .setIssuedAt(currentTime) // Seteamos la fecha actual
+                .setExpiration(expiryToken) // Seteamos la fecha de expiración
                 .signWith(SignatureAlgorithm.HS512, ConstantsSecurity.JWT_FIRM)/*We use this method to sign
                 our token and thus prevent tampering or modification*/
                 .compact(); //This method finalizes the token construction and converts it into a compact string.
+        System.out.println("Token generated at: " + currentTime);
+        System.out.println("Token expires at: " + expiryToken);
 
         return token;
     }
@@ -44,8 +46,17 @@ public class JwtGenerator {
             //Validation of the token through the signature containing the String token
             Jwts.parser().setSigningKey(ConstantsSecurity.JWT_FIRM).parseClaimsJws(token);
             return true;
-        }catch (Exception e) {
-            throw new AuthenticationCredentialsNotFoundException("JWT is expired or incorrect");
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            System.out.println("Token expirado: " + token);
+
+            throw new AuthenticationCredentialsNotFoundException("JWT has expired");
+        } catch (io.jsonwebtoken.SignatureException e) {
+            System.out.println("Firma del token inválida");
+
+            throw new AuthenticationCredentialsNotFoundException("JWT signature is invalid");
+        } catch (Exception e) {
+            System.out.println("Token inválido: " + token);
+            throw new AuthenticationCredentialsNotFoundException("JWT is incorrect");
         }
     }
 }

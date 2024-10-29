@@ -20,10 +20,10 @@ public class Order {
 
     // Relación muchos a uno con User
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;
 
     private double totalPrice;

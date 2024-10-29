@@ -21,7 +21,7 @@ public class OrderService {
 
     public List<Order> getOrdersByUserId(Long userId) {
         // Lógica para obtener todas las órdenes de un usuario específico
-        return orderRepository.findByUserId(userId);
+        return orderRepository.findByUser_Id(userId);
     }
 
     public Order getOrderById(Long orderId) {

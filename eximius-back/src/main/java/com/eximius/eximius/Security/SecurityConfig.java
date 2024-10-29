@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration //le indica al contenedor de spring que esta es una clase de seguridad al momento de arrancar la aplicacion
 @EnableWebSecurity //indicamos que se activa la seguridad de nuestra web en nuestra apicacion y ademas esta sera una clase la cual contendra toda la configuración referente a la seguridad
@@ -42,6 +44,23 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter();
     }
     //este bean va a establecer una cadena de filtros de seguridad en nuestra app. Y es aqui donde determinaremos los permisos segun los roles de usuarioos para acceder a nuestra app
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://172.27.240.1:8081", "http://localhost:8081")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("*")
+                        .exposedHeaders("Authorization")
+                        .allowCredentials(false); // Permite credenciales si es necesario
+            }
+        };
+    }
+
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -59,6 +78,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/product/all", "/api/product/**", "/api/product/category/**").permitAll() // Permitir acceso sin autenticación a las peticiones GET product
                                 .requestMatchers(HttpMethod.GET, "/api/category", "/api/category/{id}").permitAll() // Permitir acceso sin autenticación a las peticiones GET category
                                 .requestMatchers("/api/auth/**").permitAll() // Permitir acceso sin autenticación a /api/auth/**
+
+
 
                                 //acces USER
                                 .requestMatchers(HttpMethod.POST, "/api/cart", "/api/cart/addproduct").hasAuthority(RoleConstants.USER) // Solo USER puede crear un carrito y añadir productos en él

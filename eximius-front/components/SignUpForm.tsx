@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
-import { registerUser } from './RegisterUser'; // Importa la función API
+import { apiSignUp } from '../services/SignUpAPI'; // Importa la función API
 import { sharedStyles as styles } from '../styles/sharedStyles'; // Importa los estilos compartidos
 
 export default function SignUpForm() {
@@ -9,8 +9,9 @@ export default function SignUpForm() {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleRegister = async () => {
+    setErrorMessage('');
     try {
-      await registerUser(username, password);
+      await apiSignUp(username, password);
       alert('Registro exitoso');
     } catch (error) {
       setErrorMessage('Hubo un error en la registración');

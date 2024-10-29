@@ -16,13 +16,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/auth")
 public class RestControllerAuth {
@@ -75,12 +75,29 @@ public class RestControllerAuth {
     //Metodo para poder logear un usuario y obtener un token
     @PostMapping("login")
     public ResponseEntity<DtoAuthResponse> login(@RequestBody DtoLogin dtoLogin) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                dtoLogin.getUsername(),dtoLogin.getPassword()));
+        // Autenticación del usuario
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(dtoLogin.getUsername(), dtoLogin.getPassword()));
+
+        // Establecer el contexto de seguridad
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // Generar el token JWT
         String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new DtoAuthResponse(token), HttpStatus.OK);
+
+        // Obtener el nombre de usuario autenticado desde 'authentication'
+        String username = authentication.getName();
+
+        // Recuperar el usuario desde la base de datos
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Obtener los roles del usuario
+        List<String> roles = user.getRoles().stream()
+                .map(role -> role.getName())
+                .collect(Collectors.toList());
+
+        // Retornar la respuesta con el token y los roles
+        return new ResponseEntity<>(new DtoAuthResponse(token, roles), HttpStatus.OK);
     }
-
-
 }

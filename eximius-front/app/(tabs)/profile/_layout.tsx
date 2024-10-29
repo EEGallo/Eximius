@@ -8,33 +8,32 @@ export default function TabLayout() {
         headerShown: false,
         tabBarStyle: {
           position: 'absolute',
-          backgroundColor: 'transparent', // Elimina el fondo de las tabs
-          elevation: 0, // Elimina la sombra en Android
-          borderBottomWidth: 0, // Elimina el borde inferior
+          backgroundColor: 'transparent',
+          elevation: 0,
+          borderBottomWidth: 0,
           marginBottom: 30,
-          borderTopWidth: 0, //
-
+          borderTopWidth: 0,
         },
         tabBarLabelStyle: {
-          fontSize: 16, // Tamaño del texto de las tabs
+          fontSize: 16,
           fontWeight: 'bold',
         },
-        tabBarActiveTintColor: '#1E231E', // Color del icono y texto cuando está activo
-        tabBarInactiveTintColor: '#707070', // Color del icono y texto cuando está inactivo
+        tabBarActiveTintColor: '#1E231E',
+        tabBarInactiveTintColor: '#707070',
       }}
     >
       <Tabs.Screen
         name="signup"
         options={{
           tabBarLabel: 'Sign Up',
-          tabBarIcon: ({ color, size }) => <MaterialIcons name="person-add" color={color} size={size} />, // Puedes cambiar el icono
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="person-add" color={color} size={size} />,
         }}
       />
       <Tabs.Screen
         name="login"
         options={{
           tabBarLabel: 'Login',
-          tabBarIcon: ({ color, size }) => <MaterialIcons name="login" color={color} size={size} />, // Puedes cambiar el icono
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="login" color={color} size={size} />,
         }}
       />
     </Tabs>
